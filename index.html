@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color:#8a9590;
+        }
+        #container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            justify-content: stretch;
+            width: 100%;
+            height: 95vh;
+        }
+        #button{
+            background-color:#393e42 ;
+            border: 2px solid #5a5f63;
+            color: #fff;
+            margin: 2%;
+            padding: 1% 0;
+            width: 15%;
+        }
+        #message{
+            color:#393e42;
+            height: 2%;
+            font-size: 16pt;
+            margin-bottom: 4%;
+        }
+        #data_box{
+            width: 100%;
+            display: flex;
+            justify-content: stretch;
+            height: 80%;
+        }
+        .data_column{
+            width: 20%;
+            height: 100%;
+            color: #fff;
+            background-color:#393e42;
+            border: 1px solid #272c30;
+            overflow: clip;
+        }
+        .data_img_div{
+            width: 100%;
+            margin-bottom: 2%;
+        }
+        .data_img{
+            width: 100%;
+        }
+        .data_text{
+            width: 100%;
+            color: #fff;
+            padding:5px;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <button id="button">Download</button>
+    <div id="message"></div>
+    <div id="data_box">
+        <div class="data_column">
+            <div class="data_img_div">
+                <img class="data_img" src="">
+            </div>
+            <div class="data_text cell"></div>
+            <div class="data_text country"></div>
+            <div class="data_text postcode"></div>
+            <div class="data_text postcode2"></div>
+        </div>
+        <div class="data_column">
+            <div class="data_img_div">
+                <img class="data_img" src="">
+            </div>
+
+            <div class="data_text cell"></div>
+            <div class="data_text country"></div>
+            <div class="data_text postcode"></div>
+            <div class="data_text postcode2"></div>
+        </div>
+        <div class="data_column">
+            <div class="data_img_div">
+                <img class="data_img" src="">
+            </div>
+            <div class="data_text cell"></div>
+            <div class="data_text country"></div>
+            <div class="data_text postcode"></div>
+            <div class="data_text postcode2"></div>
+        </div>
+        <div class="data_column">
+            <div class="data_img_div">
+                <img class="data_img" src="">
+            </div>
+            <div class="data_text cell"></div>
+            <div class="data_text country"></div>
+            <div class="data_text postcode"></div>
+            <div class="data_text postcode2"></div>
+        </div>
+        <div class="data_column">
+            <div class="data_img_div">
+                <img class="data_img" src="">
+            </div>
+            <div class="data_text cell"></div>
+            <div class="data_text country"></div>
+            <div class="data_text postcode"></div>
+            <div class="data_text postcode2"></div>
+        </div>
+    </div>
+</div>
+<script>
+    const arrImg=document.querySelectorAll('.data_img');
+    const arrCell=document.querySelectorAll('.cell');
+    const arrCountry=document.querySelectorAll('.country');
+    const arrPostcode=document.querySelectorAll('.postcode');
+    const arrPostcode2=document.querySelectorAll('.postcode2');
+
+    function FillPerson(i,arrInfo){
+        arrImg[i].src=arrInfo[0];
+        arrCell[i].textContent='Cell: '+arrInfo[1];
+        arrCountry[i].textContent='Country: '+arrInfo[2];
+        arrPostcode[i].textContent='Postcode: '+arrInfo[3];
+        arrPostcode2[i].textContent='Postcode2: '+arrInfo[3];
+    }
+    const button=document.getElementById('button');
+    button.onclick=()=>{
+        for(var i=0;i<5;i++){
+            const k=i;
+            fetch('https://randomuser.me/api')
+                .then(res=> {
+                    let mes=document.getElementById('message');
+                    if(res.ok){
+                        mes.textContent='Success!';
+                        return res.json();
+                    }else {
+                        mes.textContent='Not successful';
+                    }
+                })
+                .then(data=>{
+                    let img=data.results[0].picture.large;
+                    let cell=data.results[0].cell;
+                    let country=data.results[0].location.country;
+                    let postcode=data.results[0].location.postcode;
+                    let arrInfo=[img,cell,country, postcode];
+                    FillPerson(k,arrInfo);
+                }).catch(error=>{
+                let mes=document.getElementById('message');
+                mes.textContent='Some error may have occurred';
+                console.log("ERROR "+error)
+            });
+        }
+    }
+</script>
+</body>
+</html>
